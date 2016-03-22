@@ -1,0 +1,27 @@
+#!/Users/jon/Projects/simh/bin/vax
+#!/usr/bin/env vax
+
+set cpu mode=VAXSTATION
+
+#load -r ka655x.bin
+
+set cpu 128m
+at nvr openbsd.nvram
+
+deposit rq qtime 1000000
+
+set rq0 ra92
+at rq0 openbsd.ra0.disk
+
+set rq1 cdrom
+at rq1 /dev/null
+
+set rq2 cdrom
+at rq2 floppy58.fs
+
+#at xq0 tap:tun0
+#attach xq0 nat:
+attach xq0 nat:tcp=2222:10.0.2.15:22
+
+boot cpu
+exit
